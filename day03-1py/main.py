@@ -7,20 +7,19 @@
 # After all the items have been found we want the sum of their priority numbers
 
 def get_priority_string(filename):
-    """Reads lines from a file and creates two slices.
-    Compares two slices on each line and builds a priority string
-    that contains letters found in both slices on lines.
+    """Reads lines from a file and creates a set of two slices.
+    Uses intersection on the two sets to find the item common to both slices
+    Uses pop() to concatenate the common item to our priority string
+    Returns a priority string containing all items that need to be sorted
     """
     prioritystr = ''
     with open(filename, 'r') as infile:
         for line in infile:
-            compartment_one = line[:len(line)//2]
-            compartment_two = line[len(line)//2:]
+            compartment_one = set(line[:len(line)//2])
+            compartment_two = set(line[len(line)//2:])
+            items_in_both = compartment_one.intersection(compartment_two)
+            prioritystr += items_in_both.pop()
 
-            for letter in compartment_one:
-                if compartment_two.count(letter) > 0:
-                    prioritystr += letter
-                    break
         return prioritystr
 
 def get_priority_sum(filename):
